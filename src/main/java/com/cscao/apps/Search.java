@@ -151,6 +151,7 @@ public class Search {
         for (int i = start; i < end; i++) {
             Document doc = searcher.doc(hits[i].doc);
             String docId = doc.get("id");
+//            String docTitle = doc.get("title");
             String docText = doc.get("text");
             // There are duplicate document numbers in the FR collection, so only output a given
             // docId once.
@@ -159,6 +160,7 @@ public class Search {
             }
             seen.put(docId, docId);
             System.out.println(docId + " " + hits[i].score + " |TEXT:===>| " +docText);
+//            System.out.println(docId + " " + docTitle + " " + hits[i].score + " |TEXT:===>| " +docText);
         }
     }
 }

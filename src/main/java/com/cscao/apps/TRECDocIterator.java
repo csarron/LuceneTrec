@@ -60,8 +60,18 @@ public class TRECDocIterator implements Iterator<Document> {
             int end = docNoLine.indexOf("</DOCNO>");
             String docNo = docNoLine.substring(start, end).trim();
 //            System.out.println(docNo);
-
             doc.add(new StringField("id", docNo, Field.Store.YES));
+
+            String docTitleLine = waitFor("<TITLE>");
+            if (docTitleLine == null) {
+                return null;
+            }
+//            System.out.println(docTitleLine);
+            start = docTitleLine.indexOf("<TITLE>") + 7;
+            end = docTitleLine.indexOf("</TITLE>");
+            String docTitle = docTitleLine.substring(start, end).trim();
+//            System.out.println(docTitle);
+            doc.add(new StringField("title", docTitle, Field.Store.YES));
 
             String textFirstLine = waitFor("<TEXT>");
             if (textFirstLine == null) {
