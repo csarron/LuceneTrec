@@ -5,6 +5,6 @@ out/
 build/
 .gradle/
 samples_idx/
-wiki-lucene-0.1.0/
+LuceneTrecEnWiki-0.2/
 # Mac
 .DS_Store

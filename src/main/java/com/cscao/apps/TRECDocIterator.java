@@ -38,6 +38,7 @@ public class TRECDocIterator implements Iterator<Document> {
             }
         }
         isEndOfFile = true;
+        reader.close();
         return null;
     }
 
@@ -74,6 +75,7 @@ public class TRECDocIterator implements Iterator<Document> {
                 line = reader.readLine();
                 if (line == null) {
                     isEndOfFile = true;
+                    reader.close();
                     break;
                 }
 

@@ -23,6 +23,7 @@ public class IndexTREC {
     }
 
     private static int processedDocCount = 0;
+    private static Date startDate = new Date();
 
     public static void buildIndex(Map<String, String> args) {
         String docPath = args.get("docPath");
@@ -35,7 +36,7 @@ public class IndexTREC {
                     + "' does not exist or is not readable, please check the path");
             System.exit(1);
         }
-        Date start = new Date();
+
         try {
             System.out.println("Indexing to directory '" + indexPath + "'...");
 
@@ -72,17 +73,25 @@ public class IndexTREC {
 
             writer.close();
 
-            Date end = new Date();
-            long milliseconds = end.getTime() - start.getTime();
-            int seconds = (int) (milliseconds / 1000) % 60;
-            int minutes = (int) ((milliseconds / (1000 * 60)) % 60);
-            int hours = (int) ((milliseconds / (1000 * 60 * 60)) % 24);
-            System.out.println(String.format("%d hour %d min, %d sec", hours, minutes, seconds));
+            Date current = new Date();
+            long milliseconds = current.getTime() - startDate.getTime();
+
+            System.out.println();
+            System.out.print("\033[36m\033[1m"+processedDocCount + "\033[0m documents indexed, took ");
+            System.out.println(getElapsedTime(milliseconds));
 
         } catch (IOException e) {
             System.out.println(" caught a " + e.getClass() +
                     "\n with message: " + e.getMessage());
         }
+    }
+
+    private static String getElapsedTime(long milliseconds) {
+        int seconds = (int) (milliseconds / 1000) % 60;
+        int minutes = (int) ((milliseconds / (1000 * 60)) % 60);
+        int hours = (int) ((milliseconds / (1000 * 60 * 60)) % 24);
+        return String.format("\033[34m%d\033[0m hour \033[34m%d\033[0m min \033[34m%d\033[0m sec",
+                hours, minutes, seconds);
     }
 
     public static void main(String[] args) {
@@ -146,6 +155,9 @@ public class IndexTREC {
                     try {
                         indexDoc(writer, file);
                     } catch (IOException ignore) {
+                        System.err.println();
+                        System.err.println(" cannot read file: " + file.toString());
+                        ignore.printStackTrace();
                         // don't index files that can't be read.
                     }
                     return FileVisitResult.CONTINUE;
@@ -160,7 +172,7 @@ public class IndexTREC {
      * Indexes a single document
      */
     private static void indexDoc(IndexWriter writer, Path path) throws IOException {
-        System.out.print("Reading file " + path.toString());
+        System.out.print("Reading file " + path.toString() + ", ");
         TRECDocIterator docs = new TRECDocIterator(path);
         Document doc;
         int singleFileCount = 0;
@@ -174,8 +186,13 @@ public class IndexTREC {
                 singleFileCount++;
             }
         }
+
         processedDocCount += singleFileCount;
-        System.out.println(", processed \033[36m" + processedDocCount + "\033[0m documents in total");
+        Date current = new Date();
+        long elapsedTime = current.getTime() - startDate.getTime();
+
+        System.out.println("\033[36m" + processedDocCount + "\033[0m docs indexed, elapsed "
+                + getElapsedTime(elapsedTime));
     }
 
 }

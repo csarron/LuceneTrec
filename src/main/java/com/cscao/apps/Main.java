@@ -3,7 +3,6 @@ package com.cscao.apps;
 import org.apache.lucene.queryparser.classic.ParseException;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
