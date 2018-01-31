@@ -75,7 +75,7 @@ public class Main {
 
             String topN = "5";
             String simFunc = "lm";
-            if (args.length == 4) {
+            if (args.length >= 4) {
                 try {
                     int n = Integer.parseInt(args[3]);
                     if (n > 0 && n < 1000) {
@@ -88,13 +88,15 @@ public class Main {
                     System.err.println("topN should be an integer: " + args[3]);
                     printUsage();
                 }
-            } else if (args.length > 4){
-                simFunc = args[4];
-                if ("lm".equals(simFunc) || "dfr".equals(simFunc) || "bm25".equals(simFunc)) {
-                    funcArgs.put("simFunc", simFunc);
-                } else {
-                    System.err.println("unsupported similarity function: " + simFunc);
-                    printUsage();
+
+                if (args.length > 4){
+                    simFunc = args[4];
+                    if ("lm".equals(simFunc) || "dfr".equals(simFunc) || "bm25".equals(simFunc)) {
+                        funcArgs.put("simFunc", simFunc);
+                    } else {
+                        System.err.println("unsupported similarity function: " + simFunc);
+                        printUsage();
+                    }
                 }
             }
             funcArgs.put("topN", topN);
