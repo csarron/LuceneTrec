@@ -1,0 +1,10 @@
+# IntelliJ
+out/
+.idea/
+*.iml
+build/
+.gradle/
+samples_idx/
+wiki-lucene-0.1.0/
+# Mac
+.DS_Store
