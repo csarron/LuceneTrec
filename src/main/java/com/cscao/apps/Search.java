@@ -150,14 +150,15 @@ public class Search {
 
         for (int i = start; i < end; i++) {
             Document doc = searcher.doc(hits[i].doc);
-            String docno = doc.get("id");
+            String docId = doc.get("id");
+            String docText = doc.get("text");
             // There are duplicate document numbers in the FR collection, so only output a given
-            // docno once.
-            if (seen.containsKey(docno)) {
+            // docId once.
+            if (seen.containsKey(docId)) {
                 continue;
             }
-            seen.put(docno, docno);
-            System.out.println(i + " " + docno + " " + hits[i].score);
+            seen.put(docId, docId);
+            System.out.println(docId + " " + hits[i].score + " |TEXT:===>| " +docText);
         }
     }
 }
