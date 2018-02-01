@@ -9,11 +9,12 @@ import java.util.Map;
 public class Main {
 
     private static void printUsage() {
-        String usage = "index [-index INDEX_PATH] [-docs DOCS_PATH] [-update]\n\n"
-                + "\t\tThis indexes the documents in DOCS_PATH, creating a Lucene index\n\n"
-                + "\t\tin INDEX_PATH that can be searched with: \n\n"
-                + "search [-index INDEX_PATH] [-query QUERY] [-sim SIMILARITY_FUNCTION]\n\n"
-                + "\t\tThis searches the QUERY in INDEX_PATH, using a default LMDirichletSimilarity function\n\n";
+        String usage = "index [INDEX_PATH] [DOCS_PATH] [-update]\n"
+                + "\tThis indexes the documents in DOCS_PATH, creating a Lucene index\n"
+                + "\tin INDEX_PATH that can be searched with: \n"
+                + "search [INDEX_PATH] [QUERY] [TOP_N] [SIMILARITY_FUNCTION]\n"
+                + "\tThis searches the QUERY in INDEX_PATH, using a SIMILARITY_FUNCTION ('lm', i.e., " +
+                "LMDirichletSimilarity by default) function, and return TOP_N documents (5 by default) \n";
         System.err.println(usage);
         System.exit(-1);
     }

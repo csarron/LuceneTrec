@@ -5,6 +5,6 @@ out/
 build/
 .gradle/
 samples_idx/
-LuceneTrec-0.2/
+LuceneTrec-0.3/
 # Mac
 .DS_Store
