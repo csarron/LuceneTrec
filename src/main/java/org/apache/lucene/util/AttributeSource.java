@@ -26,7 +26,7 @@ import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Set;
-import org.lukhnos.portmobile.lang.ClassValue;
+import org.apache.lucene.mobile.lang.ClassValue;
 import org.apache.lucene.analysis.TokenStream; // for javadocs
 
 /**

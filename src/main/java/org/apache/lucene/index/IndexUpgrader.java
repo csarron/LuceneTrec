@@ -26,8 +26,8 @@ import org.apache.lucene.util.SuppressForbidden;
 import org.apache.lucene.util.Version;
 
 import java.io.IOException;
-import java.nio.file.Paths;
-import java.nio.file.Path;
+import org.apache.lucene.mobile.file.Paths;
+import org.apache.lucene.mobile.file.Path;
 import java.util.Collection;
 
 /**

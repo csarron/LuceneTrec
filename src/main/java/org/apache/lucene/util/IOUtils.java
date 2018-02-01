@@ -28,14 +28,16 @@ import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CodingErrorAction;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.DirectoryStream;
-import java.nio.file.FileStore;
-import java.nio.file.FileVisitResult;
-import java.nio.file.FileVisitor;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
-import java.nio.file.attribute.BasicFileAttributes;
+//import java.nio.file.DirectoryStream;
+//import java.nio.file.FileStore;
+//import java.nio.file.FileVisitResult;
+//import java.nio.file.FileVisitor;
+//import java.nio.file.Files;
+//import java.nio.file.Path;
+//import java.nio.file.StandardOpenOption;
+//import java.nio.file.attribute.BasicFileAttributes;
+import org.apache.lucene.mobile.file.*;
+import org.apache.lucene.mobile.file.attribute.BasicFileAttributes;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -336,7 +338,7 @@ public final class IOUtils {
         // TODO: remove this leniency!
         if (location != null && Files.exists(location)) {
           try {
-            Files.walkFileTree(location, new FileVisitor<Path>() {            
+            Files.walkFileTree(location, new FileVisitor<Path>() {
               @Override
               public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
                 return FileVisitResult.CONTINUE;
@@ -468,7 +470,8 @@ public final class IOUtils {
   public static void fsync(Path fileToSync, boolean isDir) throws IOException {
     // If the file is a directory we have to open read-only, for regular files we must open r/w for the fsync to have an effect.
     // See http://blog.httrack.com/blog/2013/11/15/everything-you-always-wanted-to-know-about-fsync/
-    try (final FileChannel file = FileChannel.open(fileToSync, isDir ? StandardOpenOption.READ : StandardOpenOption.WRITE)) {
+    try (final FileChannel file = FileChannelUtils.open(fileToSync,
+            isDir ? StandardOpenOption.READ : StandardOpenOption.WRITE)) {
       file.force(true);
     } catch (IOException ioe) {
       if (isDir) {
@@ -536,91 +539,92 @@ public final class IOUtils {
   
   // note: requires a real or fake linux filesystem!
   static boolean spinsLinux(Path path) throws IOException {
-    FileStore store = getFileStore(path);
-    
-    // if fs type is tmpfs, it doesn't spin.
-    // this won't have a corresponding block device
-    if ("tmpfs".equals(store.type())) {
       return false;
-    }
-    
-    // get block device name
-    String devName = store.name();
-
-    // not a device (e.g. NFS server)
-    if (!devName.startsWith("/")) {
-      return true;
-    }
-    
-    // resolve any symlinks to real block device (e.g. LVM)
-    // /dev/sda0 -> sda0
-    // /devices/XXX -> sda0
-    devName = path.getRoot().resolve(devName).toRealPath().getFileName().toString();
-  
-    // now try to find the longest matching device folder in /sys/block
-    // (that starts with our dev name):
-    Path sysinfo = path.getRoot().resolve("sys").resolve("block");
-    Path devsysinfo = null;
-    int matchlen = 0;
-    try (DirectoryStream<Path> stream = Files.newDirectoryStream(sysinfo)) {
-      for (Path device : stream) {
-        String name = device.getFileName().toString();
-        if (name.length() > matchlen && devName.startsWith(name)) {
-          devsysinfo = device;
-          matchlen = name.length();
-        }
-      }
-    }
-    
-    if (devsysinfo == null) {
-      return true; // give up
-    }
-    
-    // read first byte from rotational, it's a 1 if it spins.
-    Path rotational = devsysinfo.resolve("queue").resolve("rotational");
-    try (InputStream stream = Files.newInputStream(rotational)) {
-      return stream.read() == '1'; 
-    }
+//    FileStore store = getFileStore(path);
+//    java.nio.file.Files a;
+//    // if fs type is tmpfs, it doesn't spin.
+//    // this won't have a corresponding block device
+//    if ("tmpfs".equals(store.type())) {
+//      return false;
+//    }
+//
+//    // get block device name
+//    String devName = store.name();
+//
+//    // not a device (e.g. NFS server)
+//    if (!devName.startsWith("/")) {
+//      return true;
+//    }
+//
+//    // resolve any symlinks to real block device (e.g. LVM)
+//    // /dev/sda0 -> sda0
+//    // /devices/XXX -> sda0
+//    devName = path.getRoot().resolve(devName).toRealPath().getFileName().toString();
+//
+//    // now try to find the longest matching device folder in /sys/block
+//    // (that starts with our dev name):
+//    Path sysinfo = path.getRoot().resolve("sys").resolve("block");
+//    Path devsysinfo = null;
+//    int matchlen = 0;
+//    try (DirectoryStream<Path> stream = Files.newDirectoryStream(sysinfo)) {
+//      for (Path device : stream) {
+//        String name = device.getFileName().toString();
+//        if (name.length() > matchlen && devName.startsWith(name)) {
+//          devsysinfo = device;
+//          matchlen = name.length();
+//        }
+//      }
+//    }
+//
+//    if (devsysinfo == null) {
+//      return true; // give up
+//    }
+//
+//    // read first byte from rotational, it's a 1 if it spins.
+//    Path rotational = devsysinfo.resolve("queue").resolve("rotational");
+//    try (InputStream stream = Files.newInputStream(rotational)) {
+//      return stream.read() == '1';
+//    }
   }
   
-  // Files.getFileStore(Path) useless here!
-  // don't complain, just try it yourself
-  static FileStore getFileStore(Path path) throws IOException {
-    FileStore store = Files.getFileStore(path);
-    String mount = getMountPoint(store);
-
-    // find the "matching" FileStore from system list, it's the one we want, but only return
-    // that if it's unambiguous (only one matching):
-    FileStore sameMountPoint = null;
-    for (FileStore fs : path.getFileSystem().getFileStores()) {
-      if (mount.equals(getMountPoint(fs))) {
-        if (sameMountPoint == null) {
-          sameMountPoint = fs;
-        } else {
-          // more than one filesystem has the same mount point; something is wrong!
-          // fall back to crappy one we got from Files.getFileStore
-          return store;
-        }
-      }
-    }
-
-    if (sameMountPoint != null) {
-      // ok, we found only one, use it:
-      return sameMountPoint;
-    } else {
-      // fall back to crappy one we got from Files.getFileStore
-      return store;    
-    }
-  }
-  
-  // these are hacks that are not guaranteed, may change across JVM versions, etc.
-  static String getMountPoint(FileStore store) {
-    String desc = store.toString();
-    int index = desc.lastIndexOf(" (");
-    if (index != -1) {
-      return desc.substring(0, index);
-    } else {
-      return desc;
-    }
-  }
+//   //Files.getFileStore(Path) useless here!
+//   //don't complain, just try it yourself
+//  static FileStore getFileStore(Path path) throws IOException {
+//    FileStore store = Files.getFileStore(path);
+//    String mount = getMountPoint(store);
+//
+//    // find the "matching" FileStore from system list, it's the one we want, but only return
+//    // that if it's unambiguous (only one matching):
+//    FileStore sameMountPoint = null;
+//    for (FileStore fs : path.getFileSystem().getFileStores()) {
+//      if (mount.equals(getMountPoint(fs))) {
+//        if (sameMountPoint == null) {
+//          sameMountPoint = fs;
+//        } else {
+//          // more than one filesystem has the same mount point; something is wrong!
+//          // fall back to crappy one we got from Files.getFileStore
+//          return store;
+//        }
+//      }
+//    }
+//
+//    if (sameMountPoint != null) {
+//      // ok, we found only one, use it:
+//      return sameMountPoint;
+//    } else {
+//      // fall back to crappy one we got from Files.getFileStore
+//      return store;
+//    }
+//  }
+//
+//   //these are hacks that are not guaranteed, may change across JVM versions, etc.
+//  static String getMountPoint(FileStore store) {
+//    String desc = store.toString();
+//    int index = desc.lastIndexOf(" (");
+//    if (index != -1) {
+//      return desc.substring(0, index);
+//    } else {
+//      return desc;
+//    }
+//  }
 }

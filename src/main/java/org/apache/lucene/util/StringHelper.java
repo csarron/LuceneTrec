@@ -19,8 +19,8 @@ package org.apache.lucene.util;
 
 import java.io.DataInputStream;
 import java.math.BigInteger;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import org.apache.lucene.mobile.file.Files;
+import org.apache.lucene.mobile.file.Paths;
 import java.util.Arrays;
 import java.util.Properties;
 

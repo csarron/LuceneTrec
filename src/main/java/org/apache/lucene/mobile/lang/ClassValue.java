@@ -1,4 +1,4 @@
-package org.lukhnos.portmobile.lang;
+package org.apache.lucene.mobile.lang;
 
 /*
  * Licensed under the Apache License, Version 2.0 (the "License");

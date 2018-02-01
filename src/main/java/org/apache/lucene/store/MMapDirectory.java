@@ -30,8 +30,11 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.ClosedChannelException; // javadoc @link
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileChannel.MapMode;
-import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
+//import java.nio.file.Path;
+//import java.nio.file.StandardOpenOption;
+import org.apache.lucene.mobile.file.Path;
+import org.apache.lucene.mobile.file.StandardOpenOption;
+import org.apache.lucene.mobile.file.FileChannelUtils;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.security.PrivilegedActionException;
@@ -233,7 +236,7 @@ public class MMapDirectory extends FSDirectory {
     ensureOpen();
     ensureCanRead(name);
     Path path = directory.resolve(name);
-    try (FileChannel c = FileChannel.open(path, StandardOpenOption.READ)) {
+    try (FileChannel c = FileChannelUtils.open(path, StandardOpenOption.READ)) {
       final String resourceDescription = "MMapIndexInput(path=\"" + path.toString() + "\")";
       final boolean useUnmap = getUseUnmap();
       return ByteBufferIndexInput.newInstance(resourceDescription,

@@ -6,12 +6,13 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
+import org.apache.lucene.mobile.file.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
 import java.io.IOException;
-import java.nio.file.*;
-import java.nio.file.attribute.BasicFileAttributes;
+
+import org.apache.lucene.mobile.file.attribute.BasicFileAttributes;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +32,7 @@ public class IndexTREC {
         String update = args.get("update");
         boolean create = !Boolean.getBoolean(update);
         final Path docDir = Paths.get(docPath);
-        if (!Files.isReadable(docDir)) {
+        if (!docDir.toFile().exists()) {
             System.out.println("Document directory '" + docDir.toAbsolutePath()
                     + "' does not exist or is not readable, please check the path");
             System.exit(1);

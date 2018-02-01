@@ -22,8 +22,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import org.apache.lucene.mobile.file.Path;
+import org.apache.lucene.mobile.file.Paths;
 import java.util.Random;
 
 import org.apache.lucene.util.SuppressForbidden;

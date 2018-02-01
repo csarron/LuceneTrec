@@ -18,12 +18,12 @@ package org.apache.lucene.store;
 
 
 import java.io.IOException;
-import java.nio.file.AccessDeniedException;
-import java.nio.file.FileAlreadyExistsException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.nio.file.attribute.FileTime;
+import org.apache.lucene.mobile.file.AccessDeniedException;
+import org.apache.lucene.mobile.file.FileAlreadyExistsException;
+import org.apache.lucene.mobile.file.Files;
+import org.apache.lucene.mobile.file.Path;
+import org.apache.lucene.mobile.file.attribute.BasicFileAttributes;
+import org.apache.lucene.mobile.file.attribute.FileTime;
 
 /**
  * <p>Implements {@link LockFactory} using {@link

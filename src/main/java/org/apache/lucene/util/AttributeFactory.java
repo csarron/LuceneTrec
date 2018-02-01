@@ -18,10 +18,10 @@ package org.apache.lucene.util;
 
 
 import java.lang.reflect.UndeclaredThrowableException;
-import org.lukhnos.portmobile.lang.ClassValue;
-import org.lukhnos.portmobile.invoke.MethodHandle;
-import org.lukhnos.portmobile.invoke.MethodHandles;
-import org.lukhnos.portmobile.invoke.MethodType;
+import org.apache.lucene.mobile.lang.ClassValue;
+import org.apache.lucene.mobile.invoke.MethodHandle;
+import org.apache.lucene.mobile.invoke.MethodHandles;
+import org.apache.lucene.mobile.invoke.MethodType;
 /**
  * An AttributeFactory creates instances of {@link AttributeImpl}s.
  */

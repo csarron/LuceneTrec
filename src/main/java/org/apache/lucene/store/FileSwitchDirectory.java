@@ -18,8 +18,8 @@ package org.apache.lucene.store;
 
 
 import java.io.IOException;
-import java.nio.file.AtomicMoveNotSupportedException;
-import java.nio.file.NoSuchFileException;
+import org.apache.lucene.mobile.file.AtomicMoveNotSupportedException;
+import org.apache.lucene.mobile.file.NoSuchFileException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;

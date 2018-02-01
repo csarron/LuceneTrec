@@ -19,10 +19,9 @@ package org.apache.lucene.analysis;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import org.apache.lucene.mobile.file.Files;
+import org.apache.lucene.mobile.file.Path;
 
-import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.util.IOUtils;
 
 /**

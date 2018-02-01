@@ -1,4 +1,4 @@
-package org.lukhnos.portmobile.invoke;
+package org.apache.lucene.mobile.file;
 
 /*
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,16 +14,7 @@ package org.lukhnos.portmobile.invoke;
  * limitations under the License.
  */
 
-public class MethodHandles {
-  static public class Lookup {
-    public MethodHandle findConstructor(Class<?> refc, MethodType type) throws NoSuchMethodException, IllegalAccessException {
-      return new MethodHandle.NoArgsConstructor(refc);
-    }
-  }
+import java.io.IOException;
 
-  static public final Lookup publicLookupInstance = new Lookup();
-
-  static public Lookup publicLookup() {
-    return publicLookupInstance;
-  }
+public class AccessDeniedException extends IOException {
 }

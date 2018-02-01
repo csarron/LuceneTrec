@@ -21,14 +21,23 @@ import java.io.FileNotFoundException;
 import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.nio.channels.ClosedChannelException; // javadoc @link
-import java.nio.file.DirectoryStream;
-import java.nio.file.FileAlreadyExistsException;
-import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
-import java.nio.file.OpenOption;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
-import java.nio.file.StandardOpenOption;
+//import java.nio.file.DirectoryStream;
+//import java.nio.file.FileAlreadyExistsException;
+//import java.nio.file.Files;
+//import java.nio.file.NoSuchFileException;
+//import java.nio.file.OpenOption;
+//import java.nio.file.Path;
+//import java.nio.file.StandardCopyOption;
+//import java.nio.file.StandardOpenOption;
+import org.apache.lucene.mobile.file.DirectoryStream;
+import org.apache.lucene.mobile.file.FileAlreadyExistsException;
+import org.apache.lucene.mobile.file.Files;
+import org.apache.lucene.mobile.file.NoSuchFileException;
+import org.apache.lucene.mobile.file.OpenOption;
+import org.apache.lucene.mobile.file.Path;
+import org.apache.lucene.mobile.file.StandardCopyOption;
+import org.apache.lucene.mobile.file.StandardOpenOption;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -410,7 +419,8 @@ public abstract class FSDirectory extends BaseDirectory {
     }
 
     FSIndexOutput(String name, OpenOption... options) throws IOException {
-      super("FSIndexOutput(path=\"" + directory.resolve(name) + "\")", name, new FilterOutputStream(Files.newOutputStream(directory.resolve(name), options)) {
+      super("FSIndexOutput(path=\"" + directory.resolve(name) + "\")", name,
+              new FilterOutputStream(Files.newOutputStream(directory.resolve(name), options)) {
         // This implementation ensures, that we never write more than CHUNK_SIZE bytes:
         @Override
         public void write(byte[] b, int offset, int length) throws IOException {

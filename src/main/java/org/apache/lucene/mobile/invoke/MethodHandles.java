@@ -1,4 +1,4 @@
-package org.lukhnos.portmobile.invoke;
+package org.apache.lucene.mobile.invoke;
 
 /*
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,18 +14,16 @@ package org.lukhnos.portmobile.invoke;
  * limitations under the License.
  */
 
-public class MethodType {
-  Class<?> clazz;
-
-  MethodType(Class<?> clazz) {
-    this.clazz = clazz;
+public class MethodHandles {
+  static public class Lookup {
+    public MethodHandle findConstructor(Class<?> refc, MethodType type) throws NoSuchMethodException, IllegalAccessException {
+      return new MethodHandle.NoArgsConstructor(refc);
+    }
   }
 
-  public static MethodType methodType(Class<?> clazz) {
-    return new MethodType(clazz);
-  }
+  static public final Lookup publicLookupInstance = new Lookup();
 
-  public Class<?> getType() {
-    return clazz;
+  static public Lookup publicLookup() {
+    return publicLookupInstance;
   }
 }

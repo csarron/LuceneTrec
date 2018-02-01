@@ -20,7 +20,7 @@ package org.apache.lucene.index;
 import java.io.EOFException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.NoSuchFileException;
+import org.apache.lucene.mobile.file.NoSuchFileException;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -139,7 +139,7 @@ final class SegmentCoreReaders {
     } catch (EOFException | FileNotFoundException e) {
       throw new CorruptIndexException("Problem reading index from " + dir, dir.toString(), e);
     } catch (NoSuchFileException e) {
-      throw new CorruptIndexException("Problem reading index.", e.getFile(), e);
+      throw new CorruptIndexException("Problem reading index.", dir.toString(), e);
     } finally {
       if (!success) {
         decRef();
