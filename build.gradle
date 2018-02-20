@@ -8,6 +8,11 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
 
 mainClassName = 'com.cscao.apps.Main'
+
+dependencies {
+    compile 'com.github.csarron:mucene:0.1'
+}

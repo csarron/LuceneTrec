@@ -1,18 +1,18 @@
 package com.cscao.apps;
 
-import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.index.IndexWriterConfig.OpenMode;
-import org.apache.lucene.mobile.file.*;
-import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
+import com.cscao.libs.mucene.analysis.Analyzer;
+import com.cscao.libs.mucene.analysis.standard.StandardAnalyzer;
+import com.cscao.libs.mucene.document.Document;
+import com.cscao.libs.mucene.index.IndexWriter;
+import com.cscao.libs.mucene.index.IndexWriterConfig;
+import com.cscao.libs.mucene.index.IndexWriterConfig.OpenMode;
+import com.cscao.libs.mucene.mobile.file.*;
+import com.cscao.libs.mucene.store.Directory;
+import com.cscao.libs.mucene.store.FSDirectory;
 
 import java.io.IOException;
 
-import org.apache.lucene.mobile.file.attribute.BasicFileAttributes;
+import com.cscao.libs.mucene.mobile.file.attribute.BasicFileAttributes;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;

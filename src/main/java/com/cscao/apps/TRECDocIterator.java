@@ -1,17 +1,17 @@
 package com.cscao.apps;
 
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.document.StringField;
-import org.apache.lucene.document.TextField;
+import com.cscao.libs.mucene.document.Document;
+import com.cscao.libs.mucene.document.Field;
+import com.cscao.libs.mucene.document.StringField;
+import com.cscao.libs.mucene.document.TextField;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import org.apache.lucene.mobile.file.Files;
-import org.apache.lucene.mobile.file.Path;
+import com.cscao.libs.mucene.mobile.file.Files;
+import com.cscao.libs.mucene.mobile.file.Path;
 import java.util.Iterator;
 
 public class TRECDocIterator implements Iterator<Document> {
