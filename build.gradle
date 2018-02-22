@@ -14,5 +14,5 @@ repositories {
 mainClassName = 'com.cscao.apps.Main'
 
 dependencies {
-    compile 'com.github.csarron:mucene:0.1'
+    compile 'com.github.csarron:mucene:0.1.1'
 }

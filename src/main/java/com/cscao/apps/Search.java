@@ -1,24 +1,24 @@
 package com.cscao.apps;
 
-import com.cscao.libs.mucene.analysis.Analyzer;
-import com.cscao.libs.mucene.analysis.standard.StandardAnalyzer;
-import com.cscao.libs.mucene.document.Document;
-import com.cscao.libs.mucene.index.DirectoryReader;
-import com.cscao.libs.mucene.index.IndexReader;
-import com.cscao.libs.mucene.queryparser.classic.ParseException;
-import com.cscao.libs.mucene.queryparser.classic.QueryParser;
-import com.cscao.libs.mucene.search.IndexSearcher;
-import com.cscao.libs.mucene.search.Query;
-import com.cscao.libs.mucene.search.ScoreDoc;
-import com.cscao.libs.mucene.search.TopDocs;
-import com.cscao.libs.mucene.search.similarities.*;
-import com.cscao.libs.mucene.store.FSDirectory;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.similarities.*;
+import org.apache.lucene.store.FSDirectory;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import com.cscao.libs.mucene.mobile.file.Paths;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 

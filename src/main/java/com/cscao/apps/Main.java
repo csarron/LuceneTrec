@@ -1,6 +1,6 @@
 package com.cscao.apps;
 
-import com.cscao.libs.mucene.queryparser.classic.ParseException;
+import org.apache.lucene.queryparser.classic.ParseException;
 
 import java.io.IOException;
 import java.util.HashMap;
